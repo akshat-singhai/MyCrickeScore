@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../components/ScoreBoard.css";
 import image from "../assets/bgimage3.jpeg";
-import { BiCricketBall } from "react-icons/bi";
-import { GiCricketBat } from "react-icons/gi";
 const ScoreBoard = () => {
   const defaultState = {
     teamA: { name: "Team A", runs: 0, wickets: 0, overs: 0 },
@@ -107,7 +105,7 @@ const ScoreBoard = () => {
       </h2>
 
       <div className="teamScore">
-        Score: <strong><GiCricketBat className="icon" /> {team.runs}/{team.wickets} </strong> in <strong><BiCricketBall className="icon" />{team.overs} overs</strong>
+        Score: <strong> {team.runs}/{team.wickets} </strong> in <strong>{team.overs} overs</strong>
       </div>
 
 
