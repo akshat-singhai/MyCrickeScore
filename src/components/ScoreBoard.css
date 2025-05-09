@@ -1,0 +1,285 @@
+.heading {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #1d1d1d;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.bodyDiv {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px 0;
+    border: 3px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+   
+}
+
+.teamBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    margin: 10px 0;
+}
+
+.teamDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 800%;
+    margin: 10px 5px;
+    padding: 10px;
+    height: 2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.teamDiv span {
+    margin: 0 10px;
+}
+
+.InningHeading {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.teamScore {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    margin: 20px 0;
+    border: 5px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.teamScore span {
+    font-weight: normal;
+    color: #666;
+}
+
+.teamScore:hover {
+    background-color: #1d1d1d;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.teamScore span {
+    margin: 0 10px;
+}
+
+.btnDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.runBtn {
+    background-color: #4CAF50;
+    padding: 17px 40px;
+    border-radius: 10px;
+    border: 0;
+    letter-spacing: 1.5px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: rgb(156, 255, 18) 0px 10px 0px 0px;
+    color: hsl(0, 0%, 100%);
+    cursor: pointer;
+    margin-bottom: 1rem;
+    margin-left: 9px;
+}
+.runBtn:hover {
+    background-color: #45a049;
+    box-shadow: rgb(40, 170, 79) 0px 3px 0px 0px;
+    transform: translateY(4px);
+}
+
+.wicketBtn {
+    padding: 17px 40px;
+    border-radius: 10px;
+    border: 0;
+    background-color: rgb(255, 56, 86);
+    letter-spacing: 1.5px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: rgb(201, 46, 70) 0px 10px 0px 0px;
+    color: hsl(0, 0%, 100%);
+    cursor: pointer;
+}
+
+.wicketBtn:hover {
+    box-shadow: rgb(201, 46, 70) 0px 7px 0px 0px;
+}
+
+.wicketBtn:active {
+    box-shadow: rgb(201, 46, 70) 0px 3px 0px 0px;
+    transform: translateY(4px);
+}
+
+.WideBtn {
+    background-color: #2196F3;
+    /* Blue */
+    padding: 17px 40px;
+    border-radius: 10px;
+    border: 0;
+    letter-spacing: 1.5px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: rgb(20, 113, 253) 0px 10px 0px 0px;
+    color: hsl(0, 0%, 100%);
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.WideBtn:hover {
+    background-color: #1976D2;
+    box-shadow: rgb(201, 46, 70) 0px 3px 0px 0px;
+    transform: translateY(4px);
+}
+
+.NoBallBtn {
+    background-color: #FF9800;
+    /* Orange */
+    padding: 17px 40px;
+    border-radius: 10px;
+    border: 0;
+    letter-spacing: 1.5px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: rgb(254, 189, 59) 0px 10px 0px 0px;
+    color: hsl(0, 0%, 100%);
+    cursor: pointer;
+    margin-bottom: 1rem;
+    margin-left: 9px;
+}
+
+.NoBallBtn:hover {
+    background-color: #F57C00;
+    box-shadow: rgb(201, 46, 70) 0px 3px 0px 0px;
+    transform: translateY(4px);
+
+}
+
+.btnDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.switchBtn {
+    background-color: #673AB7;
+    /* Purple */
+    padding: 17px 40px;
+    border-radius: 10px;
+    border: 0;
+    letter-spacing: 1.5px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: rgb(140, 18, 255) 0px 10px 0px 0px;
+    color: hsl(0, 0%, 100%);
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.switchBtn:hover {
+    background-color: #512DA8;
+    box-shadow: #512DA8;
+    transform: translateY(4px);
+    box-shadow: rgb(201, 46, 70) 0px 7px 0px 0px;
+
+}
+
+.resetBtn {
+    background-color: #FF5722;
+    /* Deep Orange */
+    padding: 17px 40px;
+    border-radius: 10px;
+    border: 0;
+    letter-spacing: 1.5px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: rgb(254, 156, 36) 0px 10px 0px 0px;
+    color: hsl(0, 0%, 100%);
+    cursor: pointer;
+    margin-bottom: 1rem;
+    margin-left: 9px;
+}
+
+.resetBtn:hover {
+    background-color: #E64A19;
+    box-shadow: #E64A19;
+    transform: translateY(4px);
+    box-shadow: rgb(201, 46, 70) 0px 7px 0px 0px;
+}
+
+.mainDiv {
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+}
+
+.inningEndBtn {
+    background-color: #598d00;
+    padding: 17px 40px;
+    border-radius: 10px;
+    border: 0;
+    letter-spacing: 1.5px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: rgb(6, 127, 0) 0px 10px 0px 0px;
+    color: hsl(0, 0%, 100%);
+    cursor: pointer;
+    margin-bottom: 1rem;
+    margin-left: 9px;
+
+
+
+}
+
+.inningEndBtn:hover {
+    background-color: #4e7b00;
+    background-color:#4e7b00 ;
+    box-shadow:#4e7b00;
+    transform: translateY(5px);
+    transition: 200ms;
+    box-shadow: rgb(201, 46, 70) 0px 7px 0px 0px;
+}
+
+.icon {
+    font-size: 2rem;
+    margin-right: 10px;
+    color: hsl(0, 5%, 88%);
+    transition: color 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 5px;
+}
+.bgImage{
+    height: 70vw;
+    width: 98vw;
+    position: absolute;
+    top: 0;
+    left: 0;        
+    z-index: -1;
+    
+    background-size: cover;
+}
