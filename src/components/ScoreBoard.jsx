@@ -204,28 +204,28 @@ const ScoreBoard = () => {
         </button>
       </div>
 
-      <div className="space-y-2 my-4">
-        <h3 className="font-semibold text-lg mb-2">Over History</h3>
-        {team.overHistory && team.overHistory.length > 0 ? (
-          team.overHistory.map((over, overIdx) => (
-            <div key={overIdx} className="flex items-center gap-2">
-              <span className="w-16 font-medium">Over {overIdx + 1}:</span>
-              {over.map((ball, ballIdx) => (
-                <div
-                  key={ballIdx}
-                  className={`w-6 h-6 flex items-center justify-center border rounded-full text-sm ${
-                    ball === "W" ? "bg-red-300" : ball === "4" || ball === "6" ? "bg-green-300" : "bg-gray-100"
-                  }`}
-                >
-                  {ball}
-                </div>
-              ))}
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-500">No over history available.</p>
-        )}
+   <div className="space-y-2 my-4">
+  <h3 className="font-semibold text-lg mb-2">Over History</h3>
+  {team && team.overHistory && team.overHistory.length > 0 ? ( // Add safe checks for team and overHistory
+    team.overHistory.map((over, overIdx) => (
+      <div key={overIdx} className="flex items-center gap-2">
+        <span className="w-16 font-medium">Over {overIdx + 1}:</span>
+        {over.map((ball, ballIdx) => (
+          <div
+            key={ballIdx}
+            className={`w-6 h-6 flex items-center justify-center border rounded-full text-sm ${
+              ball === "W" ? "bg-red-300" : ball === "4" || ball === "6" ? "bg-green-300" : "bg-gray-100"
+            }`}
+          >
+            {ball}
+          </div>
+        ))}
       </div>
+    ))
+  ) : (
+    <p className="text-gray-500">No over history available.</p> // Fallback message
+  )}
+</div>
     </div>
   );
 };
