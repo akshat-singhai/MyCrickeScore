@@ -1,0 +1,320 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.heading {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #1d3557;
+    text-align: center;
+    margin: 20px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: slideDown 1s ease-in-out;
+}
+
+.bodyDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 20px auto;
+    animation: zoomIn 0.8s ease-in-out;
+}
+
+/* Team Section */
+.teamBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 20px 0;
+    padding: 10px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.teamDiv {
+    flex: 1;
+    margin: 0 10px;
+    padding: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1d3557;
+    text-align: center;
+    border: 2px solid #457b9d;
+    border-radius: 10px;
+    background-color: #f1faee;
+    transition: all 0.3s ease;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.teamDiv:hover {
+    background-color: #a8dadc;
+    color: #1d3557;
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+.InningHeading {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #457b9d;
+    text-align: center;
+    margin: 20px 0;
+    animation: slideUp 1s ease-in-out;
+}
+
+/* Score Section */
+.teamScore {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #e63946;
+    text-align: center;
+    margin: 20px 0;
+    border: 3px solid #e63946;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #f1faee;
+    transition: all 0.3s ease;
+    animation: bounceIn 1s ease-in-out;
+}
+
+.teamScore:hover {
+    background-color: #e63946;
+    color: #ffffff;
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+/* Buttons */
+.btnDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+button {
+    padding: 15px 30px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.runBtn {
+    background-color: #4caf50;
+    box-shadow: 0 4px #388e3c;
+}
+
+.wicketBtn {
+    background-color: #e63946;
+    box-shadow: 0 4px #c62828;
+    margin: 10px 10px;
+}
+.WideBtn {
+    background-color: #2196f3;
+    box-shadow: 0 4px  #1976d2;
+    margin: 10px 10px;
+}
+
+.NoBallBtn {
+    background-color: #ff9800;
+    box-shadow: 0 4px#f57c00;
+    margin: 10px 10px;
+}
+ 
+
+.switchBtn {
+    background-color: #673ab7;
+    box-shadow: 0 4px #512da8;
+}
+
+.resetBtn {
+    background-color: #ff5722;
+    box-shadow: 0 4px #e64a19;
+}
+
+.inningEndBtn {
+    background-color: #598d00;
+    box-shadow: 0 4px #4e7b00;
+}
+
+/* Current Over Section */
+.currentOver {
+    margin: 20px 0;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.currentOver h3 {
+    font-size: 1.5rem;
+    color: #1d3557;
+    margin-bottom: 10px;
+}
+
+.currentOver div {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.currentOver div div {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #457b9d;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    animation: zoomIn 0.8s ease-in-out;
+}
+
+/* Over History Section */
+.space-y-2 {
+    margin: 20px 0;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.space-y-2 h3 {
+    font-size: 1.5rem;
+    color: #1d3557;
+    margin-bottom: 10px;
+}
+
+.space-y-2 div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.space-y-2 div span {
+    font-weight: bold;
+    color: #457b9d;
+}
+
+.space-y-2 div div {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #457b9d;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    animation: bounceIn 1s ease-in-out;
+}
+
+.space-y-2 div div.bg-red-300 {
+    background-color: #e63946;
+}
+
+.space-y-2 div div.bg-green-300 {
+    background-color: #4caf50;
+}
+
+.space-y-2 div div.bg-gray-100 {
+    background-color: #f1faee;
+    color: #333;
+}
+
+/* Background Image */
+.bgImage {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                url('../assets/new-background.jpg'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.9);
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes bounceIn {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
