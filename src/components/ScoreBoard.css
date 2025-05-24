@@ -374,11 +374,5 @@ button:hover {
     animation: bounceIn 1s;
 }
 
-/* Simple fireworks animation */
-.fireworks {
-    width: 100%;
-    height: 80px;
-    background: url('https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif') center/contain no-repeat;
-    margin: 0 auto;
-    pointer-events: none;
-}
+
+
