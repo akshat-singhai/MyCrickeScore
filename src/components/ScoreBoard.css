@@ -365,14 +365,37 @@ button:hover {
     animation: fadeIn 1s;
 }
 
-.winnerText {
-    font-size: 2.5rem;
-    color: #ff512f;
-    font-weight: bold;
-    margin-top: 24px;
-    text-shadow: 2px 2px 8px #fff176, 0 0 16px #ff512f;
-    animation: bounceIn 1s;
+
+
+
+.celebration {
+  margin-top: 40px;
+  text-align: center;
+  animation: bounce 1s infinite alternate;
 }
 
+@keyframes bounce {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
+}
 
+.winnerHeading {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #16a34a;
+}
 
+.winnerText {
+  font-size: 1.2rem;
+  color: #374151;
+  margin-top: 10px;
+}
+.footerText{
+    font-size: 1.2rem;
+    color: #374151;
+    margin-top: 10px;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+    font-weight: 500;
+    margin-bottom: 20px;
+}

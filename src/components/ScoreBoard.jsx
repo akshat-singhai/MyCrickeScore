@@ -121,6 +121,24 @@ const ScoreBoard = () => {
     newData.currentInnings = newData.currentInnings === "A" ? "B" : "A";
     updateStorage(newData);
   };
+  // Calculate required run rate for Team B
+const getRequiredRunRate = () => {
+  if (matchData.currentInnings !== "B") return null;
+  const info = getRunsAndBallsToWin();
+  if (!info || info.ballsLeft <= 0) return null;
+  const oversLeft = info.ballsLeft / 6;
+  return oversLeft > 0 ? (info.runsNeeded / oversLeft).toFixed(2) : "—";
+};
+
+// Format balls left as overs.balls (e.g., 3.2 overs left)
+const getOversLeft = () => {
+  if (matchData.currentInnings !== "B") return null;
+  const info = getRunsAndBallsToWin();
+  if (!info) return null;
+  const overs = Math.floor(info.ballsLeft / 6);
+  const balls = info.ballsLeft % 6;
+  return `${overs}.${balls}`;
+};
 
   // Function to calculate the target score
   const getTargetScore = () => {
@@ -171,6 +189,14 @@ const ScoreBoard = () => {
   }
   setWinner(`${winnerTeam} ${winDetail}`);
   setMatchEnded(true);
+};
+const getRunsAndBallsToWin = () => {
+  if (matchData.currentInnings !== "B") return null;
+  const target = matchData.teamA.runs + 1;
+  const runsNeeded = target - matchData.teamB.runs;
+  const ballsBowled = Math.floor(matchData.teamB.overs) * 6 + Math.round((matchData.teamB.overs % 1) * 10);
+  const ballsLeft = overLimit * 6 - ballsBowled;
+  return { runsNeeded, ballsLeft };
 };
 
   return (
@@ -245,6 +271,29 @@ const ScoreBoard = () => {
           Over limit reached ({overLimit} overs). Please end the innings or match.
         </div>
       )}
+      {/* Runs and Balls to Win */}
+     {matchData.currentInnings === "B" && (() => {
+  const info = getRunsAndBallsToWin();
+  const reqRR = getRequiredRunRate();
+  const oversLeft = getOversLeft();
+  return info && info.runsNeeded > 0 && info.ballsLeft > 0 ? (
+    <div style={{
+      background: "#fffbe6",
+      color: "#d97706",
+      border: "2px solid #fbbf24",
+      borderRadius: "10px",
+      padding: "12px",
+      margin: "12px 0",
+      fontWeight: "bold",
+      fontSize: "1.2rem",
+      textAlign: "center"
+    }}>
+      Team B needs <span style={{color:"#e63946"}}>{info.runsNeeded}</span> runs from <span style={{color:"#457b9d"}}>{info.ballsLeft}</span> balls
+      (<span style={{color:"#16a34a"}}>{oversLeft} overs</span>) to win.<br />
+      Required Run Rate: <span style={{color:"#e65100"}}>{reqRR}</span>
+    </div>
+  ) : null;
+})()}
 
       {/* Current Over Display */}
       <div className="currentOver">
@@ -343,6 +392,12 @@ const ScoreBoard = () => {
           <p className="text-gray-500">No over history available.</p>
         )}
       </div>
+        <div className="footer">
+        <p className="footerText">Developed by: Akshat Singhai</p>
+        <p className="footerText">V4.1.0 </p>
+        <p className="footerText">LinkedIn: <a target="blank" href="https://www.linkedin.com/in/akshat-singhai-727bb5302/">Akshat Singhai</a></p>
+</div>
+      
     </div>
   );
 };
