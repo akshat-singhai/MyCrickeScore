@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "../components/ScoreBoard.css";
 import { motion } from "framer-motion";
+import confetti from "canvas-confetti";
+import "../components/ScoreBoard.css";
 
 // Default extras object
 const defaultExtras = {
@@ -14,8 +15,6 @@ const defaultExtras = {
 const defaultSettings = {
   overLimit: 5,
   maxWickets: 10,
-  isPowerplay: false,
-  powerplayOvers: 6
 };
 
 // Complete default state
@@ -42,17 +41,14 @@ const defaultState = {
   },
   currentInnings: "A",
   matchSettings: defaultSettings,
-  matchInfo: {
-    venue: "Home Ground",
-    date: new Date().toISOString().split('T')[0],
-    tossWinner: null,
-    tossDecision: null
-  },
   _version: 2
 };
 
 // Migration function for old localStorage data
 const migrateOldData = (savedData) => {
+  // Handle case where savedData is null or undefined
+  if (!savedData) return defaultState;
+  
   const migratedTeams = {};
   
   ['teamA', 'teamB'].forEach(teamKey => {
@@ -90,11 +86,10 @@ const ScoreBoard = () => {
     }
   });
 
-  const [timer, setTimer] = useState(0);
   const [matchEnded, setMatchEnded] = useState(false);
   const [winner, setWinner] = useState("");
   const [showSettings, setShowSettings] = useState(false);
-  const [showMatchInfo, setShowMatchInfo] = useState(false);
+  
   const [batsmen, setBatsmen] = useState([
     { id: 1, name: "Batsman 1", runs: 0, balls: 0, isOut: false, howOut: null },
     { id: 2, name: "Batsman 2", runs: 0, balls: 0, isOut: false, howOut: null }
@@ -106,16 +101,18 @@ const ScoreBoard = () => {
   const [striker, setStriker] = useState(1);
   const [nonStriker, setNonStriker] = useState(2);
 
-  const currentTeam = matchData.currentInnings === "A" ? "teamA" : "teamB";
-  const team = matchData[currentTeam];
-  const isOverLimitReached = team.overs >= matchData.matchSettings.overLimit;
-  const isAllOut = team.wickets >= matchData.matchSettings.maxWickets;
-
+  // Confetti effect when match ends
   useEffect(() => {
-    const interval = setInterval(() => setTimer(prev => prev + 1), 1000);
-    return () => clearInterval(interval);
-  }, []);
+    if (matchEnded) {
+      confetti({ 
+        particleCount: 150, 
+        spread: 70, 
+        origin: { y: 0.6 } 
+      });
+    }
+  }, [matchEnded]);
 
+  // Ensure extras object exists
   useEffect(() => {
     ['teamA', 'teamB'].forEach(teamKey => {
       if (matchData[teamKey] && (!matchData[teamKey].extras || typeof matchData[teamKey].extras !== 'object')) {
@@ -125,6 +122,11 @@ const ScoreBoard = () => {
       }
     });
   }, [matchData]);
+
+  const currentTeam = matchData.currentInnings === "A" ? "teamA" : "teamB";
+  const team = matchData[currentTeam];
+  const isOverLimitReached = team.overs >= matchData.matchSettings.overLimit;
+  const isAllOut = team.wickets >= matchData.matchSettings.maxWickets;
 
   const updateStorage = (data) => {
     const completeData = migrateOldData(data);
@@ -160,7 +162,7 @@ const ScoreBoard = () => {
 
   const addRun = (run) => {
     if (isOverLimitReached || matchEnded || isAllOut || typeof run !== 'number') return;
-    
+
     const newData = { ...matchData };
     const team = newData[currentTeam];
     
@@ -173,6 +175,17 @@ const ScoreBoard = () => {
     updateBowlerStats(currentBowler, run, false);
     
     updateStorage(newData);
+
+    // Confetti on boundaries
+    if (run === 4 || run === 6) {
+      confetti({
+        particleCount: 60,
+        spread: 100,
+        startVelocity: 30,
+        origin: { y: 0.7 },
+        colors: ['#f1c40f', '#e67e22', '#1abc9c'],
+      });
+    }
   };
 
   const addWicket = () => {
@@ -251,19 +264,11 @@ const ScoreBoard = () => {
     const decision = Math.random() > 0.5 ? "bat" : "bowl";
     
     const newData = { ...matchData };
-    newData.matchInfo.tossWinner = tossWinner;
-    newData.matchInfo.tossDecision = decision;
     newData.currentInnings = decision === "bat" ? (tossWinner === "teamA" ? "A" : "B") : (tossWinner === "teamA" ? "B" : "A");
     
     // Reset batsmen and bowlers for new innings
     resetPlayers();
     
-    updateStorage(newData);
-  };
-
-  const togglePowerplay = () => {
-    const newData = { ...matchData };
-    newData.matchSettings.isPowerplay = !newData.matchSettings.isPowerplay;
     updateStorage(newData);
   };
 
@@ -280,7 +285,7 @@ const ScoreBoard = () => {
     if (!info) return null;
     const overs = Math.floor(info.ballsLeft / 6);
     const balls = info.ballsLeft % 6;
-    return `${overs}.${balls}`;
+    return balls > 0 ? `${overs}.${balls}` : `${overs}`;
   };
 
   const getRunsAndBallsToWin = () => {
@@ -342,13 +347,18 @@ const ScoreBoard = () => {
 
   const reset = () => {
     updateStorage(defaultState);
-    setTimer(0);
+    setMatchData(defaultState);
     setMatchEnded(false);
     setWinner("");
     resetPlayers();
   };
 
   const switchInnings = () => {
+    if (matchData.currentInnings === "A" && matchData.teamA.runs === 0) {
+      alert("Team A hasn't scored any runs yet. Please add some runs before switching innings.");
+      return;
+    }
+
     const newData = { ...matchData };
     newData.currentInnings = matchData.currentInnings === "A" ? "B" : "A";
     
@@ -363,13 +373,13 @@ const ScoreBoard = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      {/* Match Info Section */}
       <motion.h1 
         className="heading"
         whileHover={{ scale: 1.02 }}
       >
         Cricket Score Tracker
       </motion.h1>
-      
 
       <motion.div 
         className="settings-btn" 
@@ -396,7 +406,7 @@ const ScoreBoard = () => {
               value={matchData.matchSettings.overLimit}
               onChange={e => {
                 const newData = { ...matchData };
-                newData.matchSettings.overLimit = Number(e.target.value);
+                newData.matchSettings.overLimit = Math.max(1, Math.min(50, Number(e.target.value)));
                 updateStorage(newData);
               }}
               disabled={team.ballsDelivered > 0}
@@ -411,32 +421,11 @@ const ScoreBoard = () => {
               value={matchData.matchSettings.maxWickets}
               onChange={e => {
                 const newData = { ...matchData };
-                newData.matchSettings.maxWickets = Number(e.target.value);
+                newData.matchSettings.maxWickets = Math.max(1, Math.min(20, Number(e.target.value)));
                 updateStorage(newData);
               }}
             />
           </div>
-          <div className="setting-item">
-            <label>Powerplay Overs:</label>
-            <input 
-              type="number" 
-              min="1" 
-              max={matchData.matchSettings.overLimit}
-              value={matchData.matchSettings.powerplayOvers}
-              onChange={e => {
-                const newData = { ...matchData };
-                newData.matchSettings.powerplayOvers = Number(e.target.value);
-                updateStorage(newData);
-              }}
-            />
-          </div>
-          <motion.button 
-            onClick={togglePowerplay}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {matchData.matchSettings.isPowerplay ? "End Powerplay" : "Start Powerplay"}
-          </motion.button>
           <motion.button 
             onClick={() => {
               localStorage.removeItem("cricketScore");
@@ -450,19 +439,6 @@ const ScoreBoard = () => {
         </motion.div>
       )}
 
-      <div className="matchTimer">
-        Match Duration: <strong>{Math.floor(timer / 60)} mins {timer % 60} secs</strong>
-        {matchData.matchSettings.isPowerplay && (
-          <motion.span 
-            className="powerplay-indicator"
-            animate={{ opacity: [0.6, 1, 0.6] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            POWERPLAY
-          </motion.span>
-        )}
-      </div>
-
       <div className="teamBox">
         {["teamA", "teamB"].map((teamKey) => (
           <motion.input
@@ -471,12 +447,13 @@ const ScoreBoard = () => {
             value={matchData[teamKey].name}
             onChange={(e) => {
               const newData = { ...matchData };
-              newData[teamKey].name = e.target.value;
+              newData[teamKey].name = e.target.value.substring(0, 20); // Limit to 20 characters
               updateStorage(newData);
             }}
             className={`teamDiv ${teamKey === currentTeam ? 'active-team' : ''}`}
             whileHover={{ scale: 1.01 }}
             whileFocus={{ scale: 1.02 }}
+            maxLength="20"
           />
         ))}
       </div>
@@ -493,7 +470,7 @@ const ScoreBoard = () => {
         whileHover={{ scale: 1.01 }}
       >
         <div>Score: <strong>{team.runs}/{team.wickets}</strong></div>
-        <div>Overs: <strong>{team.overs}</strong></div>
+        <div>Overs: <strong>{team.overs.toFixed(1)}</strong></div>
         <div>Run Rate: <strong>{calculateCurrentRunRate()}</strong></div>
         {!matchEnded && !isAllOut && <div>Projected: <strong>{getProjectedScore()}</strong></div>}
       </motion.div>
@@ -519,30 +496,73 @@ const ScoreBoard = () => {
                   (<span>{oversLeft}</span> overs)<br />
                   Required RR: <span>{reqRR}</span>
                 </>
+              ) : info?.runsNeeded <= 0 ? (
+                "Target achieved!"
               ) : null;
             })()}
           </div>
         </motion.div>
       )}
 
-        {/* current over */}
       <motion.div 
         className="currentOver"
         whileHover={{ scale: 1.01 }}
       >
         <h3>Current Over:</h3>
         <div className="balls-container">
-          {team.currentOverBalls.map((ball, idx) => (
-            <motion.div 
-              key={idx} 
-              className={`ball ${ball === 'W' ? 'wicket' : ball === '4' || ball === '6' ? 'boundary' : ''}`}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 500, damping: 20 }}
-            >
-              {ball}
-            </motion.div>
-          ))}
+          {team.currentOverBalls.map((ball, idx, arr) => {
+            const isBouncy = ball === '6' && arr[idx - 1] === '6';
+            if (ball === 'Wd' || ball === 'Nb') {
+              return (
+                <motion.div
+                  key={idx}
+                  className={`ball ${ball === 'Wd' ? 'wide' : 'no-ball'} ${isBouncy && idx === arr.length - 1 ? 'bouncy' : ''}`}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 20 }}
+                >
+                  {ball}
+                </motion.div>
+              );
+            }
+            if (ball === 'W') {
+              return (
+                <motion.div
+                  key={idx}
+                  className="ball wicket"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 20 }}
+                >
+                  {ball}
+                </motion.div>
+              );
+            }
+            if (ball === '4' || ball === '6') {
+              return (
+                <motion.div
+                  key={idx}
+                  className={`ball boundary ${isBouncy && idx === arr.length - 1 ? 'bouncy' : ''}`}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 20 }}
+                >
+                  {ball}
+                </motion.div>
+              );
+            }
+            return (
+              <motion.div
+                key={idx}
+                className={`ball ${ball === 'W' ? 'wicket' : ball === '4' || ball === '6' ? 'boundary' : ''} ${isBouncy && idx === arr.length - 1 ? 'bouncy' : ''}`}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 500, damping: 20 }}
+              >
+                {ball}
+              </motion.div>
+            );
+          })}
           {[...Array(Math.max(0, 6 - team.currentOverBalls.length))].map((_, i) => (
             <div key={i + 10} className="ball empty" />
           ))}
@@ -655,6 +675,7 @@ const ScoreBoard = () => {
           Reset Match
         </motion.button>
       </div>
+
       <motion.div 
         className="extras-summary"
         whileHover={{ scale: 1.01 }}
@@ -696,18 +717,14 @@ const ScoreBoard = () => {
           <div className="match-summary">
             <h3>Match Summary</h3>
             <div className="summary-grid">
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-              >
+              <motion.div whileHover={{ scale: 1.02 }}>
                 <h4>{matchData.teamA.name}</h4>
-                <p>{matchData.teamA.runs}/{matchData.teamA.wickets} in {matchData.teamA.overs} overs</p>
+                <p>{matchData.teamA.runs}/{matchData.teamA.wickets} in {matchData.teamA.overs.toFixed(1)} overs</p>
                 <p>RR: {calculateCurrentRunRate('teamA')}</p>
               </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-              >
+              <motion.div whileHover={{ scale: 1.02 }}>
                 <h4>{matchData.teamB.name}</h4>
-                <p>{matchData.teamB.runs}/{matchData.teamB.wickets} in {matchData.teamB.overs} overs</p>
+                <p>{matchData.teamB.runs}/{matchData.teamB.wickets} in {matchData.teamB.overs.toFixed(1)} overs</p>
                 <p>RR: {calculateCurrentRunRate('teamB')}</p>
               </motion.div>
             </div>
