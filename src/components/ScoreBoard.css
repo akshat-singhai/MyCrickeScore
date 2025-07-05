@@ -60,14 +60,6 @@ body {
   0% { background-position: 0% 50%; }
   100% { background-position: 100% 50%; }
 }
-@-webkit-keyframes rainbow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
-}
-@-moz-keyframes rainbow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
-}
 
 /* Typography */
 .heading {
@@ -119,7 +111,6 @@ body {
   overflow: hidden;
   font-weight: 600;
   box-shadow: var(--shadow);
-  word-wrap: break-word;
 }
 
 .teamDiv:hover {
@@ -179,7 +170,6 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.5);
   position: relative;
   overflow: hidden;
-  will-change: transform, opacity;
 }
 
 @keyframes slideUp {
@@ -289,8 +279,6 @@ body {
 .ball {
   width: 36px;
   height: 36px;
-  min-width: 36px;
-  min-height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -302,8 +290,6 @@ body {
   animation: popIn 0.3s ease-out;
   border: 2px solid #eee;
   font-size: 1.1rem;
-  flex-shrink: 0;
-  will-change: transform, opacity;
 }
 
 @keyframes popIn {
@@ -379,7 +365,6 @@ body {
   font-weight: 600;
   min-width: 80px;
   text-align: center;
-  will-change: transform, opacity;
 }
 
 .runBtn::after {
@@ -402,7 +387,7 @@ body {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.runBtn:focus:not(:active)::after {
+.runBtn:hover::after {
   animation: ripple 1s ease-out;
 }
 
@@ -629,7 +614,6 @@ body {
   border-radius: var(--border-radius);
   transition: var(--transition);
   border: 1px solid rgba(255, 255, 255, 0.5);
-  will-change: transform, box-shadow;
 }
 
 .summary-grid div:hover {
@@ -680,10 +664,9 @@ body {
   padding: 1.5rem;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
-  transition: transform 0.3s cubic-bezier(.68,-0.55,.27,1.55), box-shadow 0.3s;
+  transition: var(--transition);
   animation: fadeIn 0.6s ease-out;
   border: 1px solid rgba(255, 255, 255, 0.5);
-  will-change: transform, opacity;
 }
 
 @keyframes fadeIn {
@@ -692,8 +675,8 @@ body {
 }
 
 .over-item:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 32px rgba(69, 123, 157, 0.18);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 .over-number {
@@ -740,7 +723,7 @@ body {
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
-  z-index: 1000;
+  z-index: 100;
   box-shadow: var(--shadow);
   font-weight: 600;
   transition: var(--transition);
@@ -762,7 +745,7 @@ body {
   padding: 1.5rem;
   border-radius: var(--border-radius);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  z-index: 999;
+  z-index: 100;
   width: 350px;
   max-width: 90%;
   animation: slideDown 0.4s ease-out;
@@ -806,7 +789,7 @@ body {
 .setting-item input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.8);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
 }
 
 .settings-panel button {
@@ -934,8 +917,7 @@ body {
 @media (max-width: 576px) {
   .bodyDiv {
     padding: 1rem;
-    margin: 0.5rem;
-    width: calc(100% - 1rem);
+    margin: 1rem auto;
   }
   
   .heading {
@@ -950,16 +932,6 @@ body {
   
   .teamScore div:not(:last-child)::after {
     display: none;
-  }
-  
-  .btnDiv {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .runBtn {
-    width: 100%;
-    margin-bottom: 0.5rem;
   }
   
   .settings-btn {
@@ -1095,14 +1067,6 @@ body {
     padding: 0;
     box-shadow: none;
     background: white;
-    border: none;
-  }
-  
-  .bodyDiv::before,
-  .btnDiv,
-  .match-controls,
-  .settings-btn {
-    display: none !important;
   }
   
   .teamScore, .targetScore, .currentOver,
@@ -1112,6 +1076,10 @@ body {
   
   .celebration {
     animation: none !important;
+  }
+
+  .settings-btn, .settings-panel {
+    display: none;
   }
 }
 
@@ -1168,23 +1136,39 @@ body {
   border-radius: 4px;
 }
 
-/* Focus Styles */
-button:focus, input:focus, .teamDiv:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.8);
+.over-item, .teamScore, .summary-grid div {
+  transition: transform 0.3s cubic-bezier(.68,-0.55,.27,1.55), box-shadow 0.3s;
 }
 
-/* Accessibility */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+.over-item:hover, .teamScore:hover, .summary-grid div:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 32px rgba(69, 123, 157, 0.18);
+}
+
+@keyframes bouncy {
+  0%   { transform: scale(1) translateY(0);}
+  20%  { transform: scale(1.2, 0.8) translateY(-10px);}
+  40%  { transform: scale(0.9, 1.1) translateY(0);}
+  60%  { transform: scale(1.1, 0.9) translateY(-5px);}
+  80%  { transform: scale(0.95, 1.05) translateY(0);}
+  100% { transform: scale(1) translateY(0);}
+}
+
+.bouncy {
+  animation: bouncy 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+  background: #fffde7 !important;
+  box-shadow: 0 0 0 4px #ffe08255;
+  z-index: 2;
+}
+
+.bouncy:hover {
+  animation: bouncy 0.5s cubic-bezier(.68,-0.55,.27,1.55);
+  box-shadow: 0 0 0 6px #ffe08288;
+}
+
+.bouncy:active {
+  animation: bouncy 0.3s cubic-bezier(.68,-0.55,.27,1.55);
+  box-shadow: 0 0 0 4px #ffe08233;
 }
 
 /* Scrollbar Styles */
@@ -1209,4 +1193,23 @@ button:focus, input:focus, .teamDiv:focus {
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Focus Styles */
+button:focus, input:focus, .teamDiv:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
+}
+
+/* Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }

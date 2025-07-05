@@ -680,6 +680,45 @@ const ScoreBoard = () => {
         className="extras-summary"
         whileHover={{ scale: 1.01 }}
       >
+           {/* Recent 10 Timeline */}
+      <motion.div 
+        className="recent-timeline"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        style={{ margin: "2rem 0" }}
+      >
+        <h3 style={{ textAlign: "center", marginBottom: "1rem" }}>Recent 10 Balls</h3>
+        <div style={{ display: "flex", justifyContent: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+          {(() => {
+            // Gather last 10 balls from overHistory and currentOverBalls
+            const balls = [...team.overHistory.flat(), ...team.currentOverBalls];
+            const recentBalls = balls.slice(-10);
+            return recentBalls.length > 0 ? recentBalls.map((ball, idx) => (
+              <span
+                key={idx}
+                className={`ball timeline-ball ${ball === 'W' ? 'wicket' : ball === '4' || ball === '6' ? 'boundary' : ''}`}
+                style={{
+                  margin: "0 2px",
+                  fontWeight: 700,
+                  fontSize: "1.1rem",
+                  border: "2px solid #eee",
+                  background: "#fff",
+                  minWidth: 28,
+                  minHeight: 28,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: "50%",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.07)"
+                }}
+              >
+                {ball}
+              </span>
+            )) : <span style={{ color: "#888" }}>No balls yet</span>;
+          })()}
+        </div>
+      </motion.div>
         <h4>Extras:</h4>
         <div className="extras-grid">
           <div>Wides: {team.extras?.wides || 0}</div>
@@ -732,6 +771,8 @@ const ScoreBoard = () => {
         </motion.div>
       )}
 
+// ...existing code...
+
       <motion.div 
         className="over-history"
         whileHover={{ scale: 1.01 }}
@@ -772,7 +813,6 @@ const ScoreBoard = () => {
           <p>No over history available.</p>
         )}
       </motion.div>
-
       <div className="footer">
         <p className="footerText">Cricket Score Tracker v7.0.0</p>
         <p className="footerText">Developed by Akshat Singhai</p>
